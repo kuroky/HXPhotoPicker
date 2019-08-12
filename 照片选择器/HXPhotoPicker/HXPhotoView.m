@@ -369,6 +369,9 @@
     if (!self.manager.cameraRollAlbumModel) {
         [self.manager preloadData];
     }
+    if (self.onlyCamera) {
+        [self goCameraViewController];
+    }
     if (self.outerCamera) {
             if (self.manager.type == HXPhotoManagerSelectedTypePhoto) {
                 if (self.manager.configuration.photoMaxNum > 0) {

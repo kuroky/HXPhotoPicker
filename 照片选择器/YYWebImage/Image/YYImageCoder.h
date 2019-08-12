@@ -368,7 +368,7 @@ CG_EXTERN NSString *_Nullable YYImageTypeGetExtension(YYImageType type);
 
 
 /// Returns the shared DeviceRGB color space.
-CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceRGB();
+  CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceRGB();
 
 /// Returns the shared DeviceGray color space.
 CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceGray();

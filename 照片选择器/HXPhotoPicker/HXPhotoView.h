@@ -258,6 +258,8 @@ typedef void (^HXPhotoViewLongGestureRecognizerEndedBlock)(UILongPressGestureRec
 #pragma mark - < Configuration >
 /**  是否把相机功能放在外面 默认NO  */
 @property (assign, nonatomic) BOOL outerCamera;
+/**  只允许使用相机 */
+@property (nonatomic, assign) BOOL onlyCamera;
 /**  每行个数 默认 3  */
 @property (assign, nonatomic) NSInteger lineCount;
 /**  每个item间距 默认 3  */
