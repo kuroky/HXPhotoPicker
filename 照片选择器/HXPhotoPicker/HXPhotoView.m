@@ -371,6 +371,7 @@
     }
     if (self.onlyCamera) {
         [self goCameraViewController];
+        return;
     }
     if (self.outerCamera) {
             if (self.manager.type == HXPhotoManagerSelectedTypePhoto) {
