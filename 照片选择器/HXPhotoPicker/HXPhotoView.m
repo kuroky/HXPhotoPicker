@@ -435,6 +435,11 @@
  前往相机
  */
 - (void)goCameraViewController {
+    if (TARGET_IPHONE_SIMULATOR) {
+        [self directGoPhotoViewController];
+        return;
+    }
+    
     if(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [[self hx_viewController].view hx_showImageHUDText:[NSBundle hx_localizedStringForKey:@"无法使用相机!"]];
         return;
