@@ -404,8 +404,7 @@
         }]];
         
         [alertController addAction:[UIAlertAction actionWithTitle:[NSBundle hx_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil]];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
-        //[self.hx_viewController presentViewController:alertController animated:YES completion:nil];
+        [self.hx_viewController presentViewController:alertController animated:YES completion:nil];
         return;
     }
     [self directGoPhotoViewController];
