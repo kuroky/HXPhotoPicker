@@ -638,13 +638,35 @@
         option.version = PHImageRequestOptionsVersionOriginal;
     }
     self.iCloudDownloading = YES;
-    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageDataForAsset:self.asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        [weakSelf requestDataWithResult:imageData info:info size:CGSizeZero resultClass:[NSData class] orientation:orientation audioMix:nil startRequestICloud:startRequestICloud progressHandler:progressHandler success:^(id result, NSDictionary *info, UIImageOrientation orientation, AVAudioMix *audioMix) {
+    CGFloat scale = 2.0;//UIScreen.mainScreen.scale;
+    CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
+    CGSize tSize = CGSizeApplyAffineTransform([UIScreen mainScreen].bounds.size, transform);
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:self.asset
+                                               targetSize:tSize
+                                              contentMode:PHImageContentModeAspectFill
+                                                  options:option
+                                            resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                                NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+                                                [weakSelf requestDataWithResult:imageData
+                                                                           info:info
+                                                                           size:tSize
+                                                                    resultClass:[NSData class] orientation:UIImageOrientationUp
+                                                                       audioMix:nil startRequestICloud:startRequestICloud progressHandler:progressHandler success:^(id result, NSDictionary *info, UIImageOrientation orientation, AVAudioMix *audioMix) {
+                                                    if (success) {
+                                                        success(result, UIImageOrientationUp, weakSelf, info);
+                                                    }
+                                                } failed:failed];
+                                            }];
+    /*
+    requestID = [[PHImageManager defaultManager] requestImageDataForAsset:self.asset
+                                                                                   options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        [weakSelf requestDataWithResult:imageData info:info size:tSize resultClass:[NSData class] orientation:orientation audioMix:nil startRequestICloud:startRequestICloud progressHandler:progressHandler success:^(id result, NSDictionary *info, UIImageOrientation orientation, AVAudioMix *audioMix) {
             if (success) {
                 success(result, orientation, weakSelf, info);
             }
         } failed:failed];
     }];
+     */
     self.iCloudRequestID = requestID;
     return requestID;
 }
