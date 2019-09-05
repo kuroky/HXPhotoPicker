@@ -646,7 +646,13 @@
                                               contentMode:PHImageContentModeAspectFill
                                                   options:option
                                             resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                                NSData *imageData = UIImageJPEGRepresentation(result, 1.0);
+                                                NSData *imageData;
+                                                if ([result CGImageContainsAlpha:result.CGImage]) {
+                                                    imageData = UIImagePNGRepresentation(result);
+                                                }
+                                                else {
+                                                    imageData = UIImageJPEGRepresentation(result, 1.0);
+                                                }
                                                 [weakSelf requestDataWithResult:imageData
                                                                            info:info
                                                                            size:tSize

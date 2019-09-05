@@ -190,17 +190,6 @@
     return scaledImage;
 }
 
-- (BOOL)CGImageContainsAlpha:(CGImageRef)cgImage {
-    if (!cgImage) {
-        return NO;
-    }
-    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage);
-    BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
-                      alphaInfo == kCGImageAlphaNoneSkipFirst ||
-                      alphaInfo == kCGImageAlphaNoneSkipLast);
-    return hasAlpha;
-}
-
 - (UIImage *)LFME_mergeimages:(NSArray <UIImage *>*)images
 {
     UIGraphicsBeginImageContextWithOptions(self.size ,NO, 0);

@@ -23,4 +23,12 @@
 - (UIImage *)hx_clipLeftOrRightImage:(CGFloat)scale;
 - (UIImage *)hx_rotationImage:(UIImageOrientation)orient;
 
+/**
+ 是否包含alpha通道
+ 
+ @param cgImage image数据
+ @return BOOL
+ */
+- (BOOL)CGImageContainsAlpha:(CGImageRef)cgImage;
+
 @end

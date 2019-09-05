@@ -384,4 +384,16 @@ static CGRect swapWidthAndHeight(CGRect rect) {
     
     return rect;
 }
+
+- (BOOL)CGImageContainsAlpha:(CGImageRef)cgImage {
+    if (!cgImage) {
+        return NO;
+    }
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage);
+    BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
+                      alphaInfo == kCGImageAlphaNoneSkipFirst ||
+                      alphaInfo == kCGImageAlphaNoneSkipLast);
+    return hasAlpha;
+}
+
 @end
