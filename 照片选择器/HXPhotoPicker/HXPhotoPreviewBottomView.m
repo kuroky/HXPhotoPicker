@@ -10,7 +10,7 @@
 #import "HXPhotoManager.h"
 #import "UIImageView+HXExtension.h"
 @interface HXPhotoPreviewBottomView ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
-@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic, readwrite) UICollectionView *collectionView;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (strong, nonatomic) NSIndexPath *currentIndexPath;
 @property (strong, nonatomic) UIButton *doneBtn;

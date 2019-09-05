@@ -17,6 +17,7 @@
 @end
 
 @interface HXPhotoPreviewBottomView : UIView
+@property (strong, nonatomic, readonly) UICollectionView *collectionView;
 @property (strong, nonatomic) UIToolbar *bgView;
 @property (weak, nonatomic) id<HXPhotoPreviewBottomViewDelegate> delagate;
 @property (strong, nonatomic) NSMutableArray *modelArray;

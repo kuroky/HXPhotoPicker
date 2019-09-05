@@ -49,5 +49,7 @@ typedef NS_ENUM(NSUInteger, LFPhotoEditOperationType) {
 
 - (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC didCancelPhotoEdit:(LFPhotoEdit *)photoEdit;
 - (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC didFinishPhotoEdit:(LFPhotoEdit *)photoEdit;
+- (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC
+                   didFinishPhoto:(UIImage *)photoImage;
 
 @end

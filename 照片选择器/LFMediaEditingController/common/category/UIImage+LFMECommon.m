@@ -151,7 +151,7 @@
     return CGSizeMake(ceilf(scaledWidth), ceilf(scaledHeight));
 }
 
-- (UIImage*)LFME_scaleToSize:(CGSize)size
+- (UIImage *)LFME_scaleToSize:(CGSize)size
 {
     if (CGSizeEqualToSize(self.size, size)) {
         return self;
@@ -177,22 +177,75 @@
     
     int xPos = (size.width - width)/2;
     int yPos = (size.height-height)/2;
+    /*
+    NSData *data;
+    if ([self CGImageContainsAlpha:self.CGImage]) {
+        data = UIImagePNGRepresentation(self);
+    }
+    else {
+        data = UIImageJPEGRepresentation(self, 1.0);
+    }
     
+    CGImageSourceRef imgSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    if (!imgSource) {
+        return nil;
+    }
+    
+    CGImageRef oriRef = CGImageSourceCreateImageAtIndex(imgSource, 0, nil);
+    CFRelease(imgSource);
+    
+    CGColorSpaceRef rgbColorSpace = CGImageGetColorSpace(oriRef);
+    if (!rgbColorSpace) {
+        rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    size_t bitsPerComponet = CGImageGetBitsPerComponent(oriRef);
+    size_t bytesPerRow = size.width * 4;//CGImageGetBytesPerRow(oriRef);
+    CGBitmapInfo bitInfo = CGImageGetBitmapInfo(oriRef);
+    
+    void *bitmapData; //内存空间的指针，该内存空间的大小等于图像使用RGB通道所占用的字节数。
+    size_t pixelsHigh = CGImageGetHeight(oriRef); //纵向
+    int bitmapByteCount = (int)(bytesPerRow * pixelsHigh); //计算整张图占用的字节数
+    bitmapData = malloc(bitmapByteCount); //分配足够容纳图片字节数的内存空间
+    
+    CGContextRef context = CGBitmapContextCreate(NULL,
+                                                 size.width,
+                                                 size.height,
+                                                 bitsPerComponet,
+                                                 bytesPerRow,
+                                                 rgbColorSpace,
+                                                 bitInfo);
+    
+    CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
+    CGContextDrawImage(context, CGRectMake(0, 0, size.width, size.height), oriRef);
+    CGImageRef imgRef = CGBitmapContextCreateImage(context);
+    UIImage *image = [UIImage imageWithCGImage:imgRef];
+    CGContextRelease(context);
+    CGImageRelease(imgRef);
+    return image;
+    */
     // 创建一个context
     // 并把它设置成为当前正在使用的context
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    
     // 绘制改变大小的图片
     [self drawInRect:CGRectMake(xPos, yPos, width, height)];
-    
     // 从当前context中创建一个改变大小后的图片
-    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     // 使当前的context出堆栈
     UIGraphicsEndImageContext();
-    
     // 返回新的改变大小后的图片
     return scaledImage;
+}
+
+- (BOOL)CGImageContainsAlpha:(CGImageRef)cgImage {
+    if (!cgImage) {
+        return NO;
+    }
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage);
+    BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
+                      alphaInfo == kCGImageAlphaNoneSkipFirst ||
+                      alphaInfo == kCGImageAlphaNoneSkipLast);
+    return hasAlpha;
 }
 
 - (UIImage *)LFME_mergeimages:(NSArray <UIImage *>*)images

@@ -475,7 +475,9 @@
                     [weakSelf.bottomView beganAnimate];
                     [weakSelf videoNeedHideViews];
                 }, ^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
+                                                       options:@{}
+                                             completionHandler:nil];                    
                 }); 
             }else {
                 [self.bottomView beganAnimate];

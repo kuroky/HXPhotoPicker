@@ -192,6 +192,7 @@ HXVideoEditViewControllerDelegate
     }
 }
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     if (self.exteriorPreviewStyle == HXPhotoViewPreViewShowStyleDark) {
         [self changeStatusBarWithHidden:NO];
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
@@ -201,6 +202,7 @@ HXVideoEditViewControllerDelegate
     [cell cancelRequest];
     self.stopCancel = NO;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -958,6 +960,9 @@ HXVideoEditViewControllerDelegate
         if ([self.delegate respondsToSelector:@selector(photoPreviewSelectLaterDidEditClick:beforeModel:afterModel:)]) {
             [self.delegate photoPreviewSelectLaterDidEditClick:self beforeModel:beforeModel afterModel:afterModel];
         }
+        self.bottomView.modelArray = self.modelArray;                    
+        [self.bottomView.collectionView reloadData];
+        [self.collectionView reloadData];
         [self dismissClick];
         return;
     }
@@ -1669,7 +1674,8 @@ HXVideoEditViewControllerDelegate
     }
 }
 - (void)pausePlayerAndShowNaviBar {
-    [self.player.currentItem seekToTime:CMTimeMake(0, 1)];
+    [self.player.currentItem seekToTime:CMTimeMake(0, 1)
+                      completionHandler:^(BOOL finished) {}];
     [self.player play];
 }
 - (void)cancelRequest {

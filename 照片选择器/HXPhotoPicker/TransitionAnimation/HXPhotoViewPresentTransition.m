@@ -134,8 +134,7 @@
  *  实现dimiss动画
  */
 - (void)dismissAnimation:(id<UIViewControllerContextTransitioning>)transitionContext {
-    HXPhotoPreviewViewController *fromVC = (HXPhotoPreviewViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    HXPhotoPreviewViewController *fromVC = (HXPhotoPreviewViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];    
     if (!fromVC.modelArray.count) {
         UIView *containerView = [transitionContext containerView];
 //        UIView *tempView = [fromVC.view snapshotViewAfterScreenUpdates:NO];
@@ -162,20 +161,6 @@
 #endif
     }
     UICollectionView *collectionView = (UICollectionView *)self.photoView.collectionView;
-    
-    if ([toVC isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)toVC;
-        toVC = nav.viewControllers.lastObject;
-    }else if ([toVC isKindOfClass:[UITabBarController class]]) {
-        UITabBarController *tabBar = (UITabBarController *)toVC;
-        if ([tabBar.selectedViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)tabBar.selectedViewController;
-            toVC = nav.viewControllers.lastObject;
-        }else {
-            toVC = tabBar.selectedViewController;
-        }
-    }
-    
     HXPhotoSubViewCell *cell = (HXPhotoSubViewCell *)[collectionView cellForItemAtIndexPath:[self.photoView currentModelIndexPath:model]];
     if (!tempView.image) {
         tempView = [[UIImageView alloc] initWithImage:cell.imageView.image];

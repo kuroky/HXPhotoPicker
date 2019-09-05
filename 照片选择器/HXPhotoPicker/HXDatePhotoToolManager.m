@@ -139,13 +139,7 @@
     [self.waitArray removeLastObject];
     HXPhotoModel *model = self.writeArray.firstObject;
     HXWeakSelf
-    if (model.type == HXPhotoModelMediaTypeVideo) {
-        NSString *presetName;
-        if (self.requestType == HXDatePhotoToolManagerRequestTypeOriginal) {
-            presetName = AVAssetExportPresetHighestQuality;
-        }else {
-            presetName = AVAssetExportPresetMediumQuality;
-        }
+    if (model.type == HXPhotoModelMediaTypeVideo) {        
         if (model.asset) {
             [model requestAVAssetExportSessionStartRequestICloud:nil progressHandler:nil success:^(AVAssetExportSession *assetExportSession, HXPhotoModel *model, NSDictionary *info) {
                 NSString *fileName = [[NSString hx_fileName] stringByAppendingString:@".mp4"];

@@ -131,7 +131,7 @@
     
     if (_photoEdit) {
         [self setEditImage:_photoEdit.editImage];
-        _EditingView.photoEditData = _photoEdit.editData;
+        //_EditingView.photoEditData = _photoEdit.editData;
     } else {
         [self setEditImage:_editImage];
     }
@@ -236,11 +236,15 @@
     void (^finishImage)(UIImage *) = ^(UIImage *image){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if (data) {
-                photoEdit = [[LFPhotoEdit alloc] initWithEditImage:weakSelf.editImage previewImage:image data:data];
+                //photoEdit = 
+                //[[LFPhotoEdit alloc] initWithEditImage:weakSelf.editImage previewImage:image data:nil];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([weakSelf.delegate respondsToSelector:@selector(lf_PhotoEditingController:didFinishPhotoEdit:)]) {
-                    [weakSelf.delegate lf_PhotoEditingController:self didFinishPhotoEdit:photoEdit];
+                    //[weakSelf.delegate lf_PhotoEditingController:weakSelf didFinishPhotoEdit:photoEdit];
+                }
+                if ([weakSelf.delegate respondsToSelector:@selector(lf_PhotoEditingController:didFinishPhoto:)]) {
+                    [weakSelf.delegate lf_PhotoEditingController:weakSelf didFinishPhoto:image];
                 }
                 [weakSelf hideProgressHUD];
             });

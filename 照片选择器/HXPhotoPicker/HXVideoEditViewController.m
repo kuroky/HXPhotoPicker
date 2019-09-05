@@ -977,7 +977,7 @@ HXEditFrameViewDelegate
     CGRect rct = self.validRect;
     const CGFloat W = self.hx_w;
     CGFloat minX = hxValidRectX + hxImageWidth;
-    CGFloat maxX = W;
+    CGFloat maxX;
     
     switch (panGesture.view.tag) {
         case 0: {

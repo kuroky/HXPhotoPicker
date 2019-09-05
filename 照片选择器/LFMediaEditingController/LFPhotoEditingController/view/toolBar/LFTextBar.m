@@ -84,8 +84,8 @@
     return [self.lf_textView becomeFirstResponder];
 }
 
-- (BOOL)resignFirstResponder
-{
+- (BOOL)resignFirstResponder {
+    [super resignFirstResponder];
     return [self.lf_textView resignFirstResponder];
 }
 

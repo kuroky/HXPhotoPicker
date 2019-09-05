@@ -96,7 +96,7 @@
     NSArray *subDataSources = self.dataSources[indexPath.section];
     id model = subDataSources[indexPath.row];
     
-    NSString *LFEditCollectionViewCellIdentifier = nil;
+    NSString *LFEditCollectionViewCellIdentifier = @"";
     if (self.dequeueReusableCellBlock) {
         LFEditCollectionViewCellIdentifier = self.dequeueReusableCellBlock(indexPath);
     }

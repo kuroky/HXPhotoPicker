@@ -19,7 +19,7 @@
 /** 编辑原图片 */
 @property (nonatomic, readonly) UIImage *editImage;
 /** 编辑数据 */
-@property (nonatomic, readonly) NSDictionary *editData;
+//@property (nonatomic, readonly) NSDictionary *editData;
 
 /** 初始化 */
 - (instancetype)initWithEditImage:(UIImage *)image previewImage:(UIImage *)previewImage data:(NSDictionary *)data;

@@ -196,16 +196,33 @@ static const CGFloat kPhotoViewMargin = 12.0;
 }
 - (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC didFinishPhotoEdit:(LFPhotoEdit *)photoEdit {
     [photoEditingVC.navigationController setNavigationBarHidden:NO];
+    if (photoEdit) {
+        HXPhotoModel *model = [HXPhotoModel photoModelWithImage:photoEdit.editPreviewImage];
+        //model.tempAsset = photoEdit;
+        self.manager.configuration.usePhotoEditComplete(self.beforePhotoModel, model);
+        photoEdit = nil;
+    }
     
-    HXPhotoModel *model = [HXPhotoModel photoModelWithImage:photoEdit.editPreviewImage];
-    model.tempAsset = photoEdit;
     if (photoEditingVC.navigationController.viewControllers.count > 1) {
         [photoEditingVC.navigationController popViewControllerAnimated:NO];
     }else {
         [photoEditingVC dismissViewControllerAnimated:NO completion:nil];
     }
+}
+
+- (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC didFinishPhoto:(UIImage *)photoImage {
+    [photoEditingVC.navigationController setNavigationBarHidden:NO];
+    if (photoImage) {
+        HXPhotoModel *model = [HXPhotoModel photoModelWithImage:photoImage];
+        //model.tempAsset = photoEdit;
+        self.manager.configuration.usePhotoEditComplete(self.beforePhotoModel, model);        
+    }
     
-    self.manager.configuration.usePhotoEditComplete(self.beforePhotoModel, model);
+    if (photoEditingVC.navigationController.viewControllers.count > 1) {
+        [photoEditingVC.navigationController popViewControllerAnimated:NO];
+    }else {
+        [photoEditingVC dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 - (void)lf_PhotoEditingController:(LFPhotoEditingController *)photoEditingVC didCancelPhotoEdit:(LFPhotoEdit *)photoEdit {

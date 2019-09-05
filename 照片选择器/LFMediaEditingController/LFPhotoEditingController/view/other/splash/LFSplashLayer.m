@@ -84,12 +84,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
         if ([blur isMemberOfClass:[LFSplashImageBlur class]]) {
             
             UIImage *image = bundleEditImageNamed(((LFSplashImageBlur *)blur).imageName);
-            if (image) {
-                CGPoint firstPoint = CGPointZero;
-                if (i > 0) {
-                    LFSplashBlur *prevBlur = self.lineArray[i-1];
-                    firstPoint = prevBlur.rect.origin;
-                }
+            if (image) {                
                 /** 创建颜色图片 */
                 CGColorSpaceRef colorRef = CGColorSpaceCreateDeviceRGB();
                 CGContextRef contextRef = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, image.size.width*4, colorRef, kCGImageAlphaPremultipliedFirst);

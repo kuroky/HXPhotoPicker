@@ -206,26 +206,12 @@
     
     HXPhotoPreviewViewController *fromVC = (HXPhotoPreviewViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
     HXPhotoModel *model = [fromVC.modelArray objectAtIndex:fromVC.currentModelIndex];
     
     HXPhotoPreviewViewCell *fromCell = [fromVC currentPreviewCell:model];
     
     
-    UICollectionView *collectionView = (UICollectionView *)self.photoView.collectionView;
-    if ([toVC isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)toVC;
-        toVC = nav.viewControllers.lastObject;
-    }else if ([toVC isKindOfClass:[UITabBarController class]]) {
-        UITabBarController *tabBar = (UITabBarController *)toVC;
-        if ([tabBar.selectedViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)tabBar.selectedViewController;
-            toVC = nav.viewControllers.lastObject;
-        }else {
-            toVC = tabBar.selectedViewController;
-        }
-    }
+    UICollectionView *collectionView = (UICollectionView *)self.photoView.collectionView;    
     HXPhotoSubViewCell *toCell = (HXPhotoSubViewCell *)[collectionView cellForItemAtIndexPath:[self.photoView currentModelIndexPath:model]];
     
     self.fromCell = fromCell;

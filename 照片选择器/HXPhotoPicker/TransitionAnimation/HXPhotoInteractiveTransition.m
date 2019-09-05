@@ -198,9 +198,7 @@
     
     self.tempImageView.clipsToBounds = YES;
     self.tempImageView.contentMode = UIViewContentModeScaleAspectFill;
-    BOOL contains = YES;
     if (!toCell) {
-        contains = [toVC scrollToModel:model];
         toCell = [toVC currentPreviewCell:model];
     }
     self.bgView = [[UIView alloc] initWithFrame:containerView.bounds];

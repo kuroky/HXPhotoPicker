@@ -28,8 +28,6 @@
         _editPosterImage = [editPreviewImage LFME_scaleToSize:size];
         _editPreviewData = LFME_UIImageJPEGRepresentation(editPreviewImage);
     }
-    
-    
 }
 
 /** 初始化 */
@@ -39,7 +37,7 @@
     if (self) {
         [self setEditingImage:previewImage];
         _editImage = image;
-        _editData = data;
+        //_editData = data;
     }
     return self;
 }

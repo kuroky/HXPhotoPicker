@@ -58,6 +58,7 @@
     } else {
         self.path = mPath;
     }
+    CGPathRelease(mPath);
 }
 
 @end

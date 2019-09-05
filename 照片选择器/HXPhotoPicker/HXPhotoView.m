@@ -404,7 +404,8 @@
         }]];
         
         [alertController addAction:[UIAlertAction actionWithTitle:[NSBundle hx_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil]];
-        [self.hx_viewController presentViewController:alertController animated:YES completion:nil];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+        //[self.hx_viewController presentViewController:alertController animated:YES completion:nil];
         return;
     }
     [self directGoPhotoViewController];
@@ -864,7 +865,6 @@
     [super layoutSubviews];
     if (self.lineCount <= 0) self.lineCount = 1;
     NSInteger dataCount = self.tempShowAddCell ? self.dataList.count + 1 : self.dataList.count;
-    NSInteger numOfLinesNew = (dataCount / self.lineCount) + 1;
     
     [self setupNewFrame];
     
@@ -877,9 +877,7 @@
             self.hx_h = itemW;
         }
     }
-    if (dataCount % self.lineCount == 0) {
-        numOfLinesNew -= 1;
-    }
+    
     self.collectionView.frame = self.bounds;
     if (self.collectionView.hx_h <= 0) {
         self.numOfLinesOld = 0;
@@ -887,6 +885,7 @@
         self.collectionView.frame = self.bounds;
     }
 }
+
 - (void)dealloc {
     if (HXShowLog) NSSLog(@"dealloc");
 }

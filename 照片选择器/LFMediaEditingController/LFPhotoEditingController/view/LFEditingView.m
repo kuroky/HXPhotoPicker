@@ -199,10 +199,8 @@
     if (CGSizeEqualToSize(CGSizeZero, _clippingMinSize) || (clippingMinSize.width < CGRectGetWidth(_clippingMaxRect) && clippingMinSize.height < CGRectGetHeight(_clippingMaxRect))) {
         
         CGFloat toolbarHeight = self.editToolbarDefaultHeight + kClipZoom_margin;
-        CGFloat topHeight = 0;
         if (@available(iOS 11.0, *)) {
             toolbarHeight += self.safeAreaInsets.bottom;
-            topHeight += self.safeAreaInsets.top;
         }
         
         CGRect rect = CGRectInset(self.frame , 20, MAX(50, toolbarHeight));
@@ -227,10 +225,8 @@
     if (CGRectEqualToRect(CGRectZero, _clippingMaxRect) || (CGRectGetWidth(clippingMaxRect) > _clippingMinSize.width && CGRectGetHeight(clippingMaxRect) > _clippingMinSize.height)) {
         
         CGFloat toolbarHeight = self.editToolbarDefaultHeight + kClipZoom_margin;
-        CGFloat topHeight = 0;
         if (@available(iOS 11.0, *)) {
             toolbarHeight += self.safeAreaInsets.bottom;
-            topHeight += self.safeAreaInsets.top;
         }
         
         CGRect newClippingMaxRect = CGRectInset(self.frame , 20, MAX(50, toolbarHeight));
@@ -452,7 +448,8 @@
             /** 剪裁图片 */
             CGImageRef sourceImageRef = [image CGImage];
             CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, clipRect);
-            UIImage *clipEditImage = [UIImage imageWithCGImage:newImageRef scale:image.scale orientation:image.imageOrientation];
+            UIImage *clipEditImage = [UIImage imageWithCGImage:newImageRef scale:image.scale orientation:image.imageOrientation];            
+            CGImageRelease(newImageRef);
             if (rotate > 0) {
                 /** 调整图片方向 */
                 clipEditImage = [clipEditImage LFME_imageRotatedByRadians:rotate];

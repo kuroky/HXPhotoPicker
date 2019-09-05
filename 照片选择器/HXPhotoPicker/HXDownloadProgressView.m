@@ -56,7 +56,7 @@
     _progress = progress;
     self.label.text = [NSString stringWithFormat:@"%d%%",(int)(progress * 100)];
     if (progress >= 1) {
-        progress = 1;
+        _progress = 1;
         [self animationComplete];
     }
 }
