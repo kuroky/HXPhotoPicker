@@ -187,6 +187,10 @@ typedef NS_ENUM(NSUInteger, HXPhotoModelVideoState) {
 @property (strong, nonatomic) id _Nullable tempAsset;
 @property (assign, nonatomic) BOOL loadOriginalImage;
 
+/**
+ 视频是否编辑
+ */
+@property (nonatomic, assign) BOOL videoHasEdit;
 
 #pragma mark - < init >
 /**  通过image初始化 */

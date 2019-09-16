@@ -372,7 +372,7 @@ HXVideoEditViewControllerDelegate
             }
         }
         if (model.subType == HXPhotoModelMediaSubTypeVideo) {
-            self.bottomView.enabled = self.manager.configuration.videoCanEdit;
+            self.bottomView.enabled = self.manager.configuration.videoCanEdit;            
         } else {
             self.bottomView.enabled = self.manager.configuration.photoCanEdit;
         }
@@ -917,42 +917,86 @@ HXVideoEditViewControllerDelegate
             }
         }
         if (!self.selectBtn.selected && !max && self.modelArray.count > 0) {
-            //            model.selected = YES;
-            HXPhotoPreviewViewCell *cell = (HXPhotoPreviewViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentModelIndex inSection:0]];
-#if HasYYKitOrWebImage
-            if (model.type == HXPhotoModelMediaTypePhotoGif) {
-                if (cell.animatedImageView.image.images.count > 0) {
-                    model.thumbPhoto = cell.animatedImageView.image.images.firstObject;
-                    model.previewPhoto = cell.animatedImageView.image.images.firstObject;
-                }else {
-                    model.thumbPhoto = cell.animatedImageView.image;
-                    model.previewPhoto = cell.animatedImageView.image;
-                }
-            }else {
-                model.thumbPhoto = cell.animatedImageView.image;
-                model.previewPhoto = cell.animatedImageView.image;
-            }
-#else
-            if (model.type == HXPhotoModelMediaTypePhotoGif) {
-                if (cell.imageView.image.images.count > 0) {
-                    model.thumbPhoto = cell.imageView.image.images.firstObject;
-                    model.previewPhoto = cell.imageView.image.images.firstObject;
-                }else {
-                    model.thumbPhoto = cell.imageView.image;
-                    model.previewPhoto = cell.imageView.image;
-                }
-            }else {
-                model.thumbPhoto = cell.imageView.image;
-                model.previewPhoto = cell.imageView.image;
-            }
-#endif
-            [self.manager beforeSelectedListAddPhotoModel:model];
+            [self calculateVideoSize:model
+                          completion:^(BOOL resize) {
+                              if (resize) {
+                                  [self jumpEditViewControllerWithModel:model];
+                              }
+                              else {
+                                  [self previewItem:model];
+                              }
+                          }];
+            return;
         }
     }
     if ([self.delegate respondsToSelector:@selector(photoPreviewControllerDidDone:)]) {
         [self.delegate photoPreviewControllerDidDone:self];
     }
 }
+
+- (void)previewItem:(HXPhotoModel *)model {
+    //            model.selected = YES;
+    HXPhotoPreviewViewCell *cell = (HXPhotoPreviewViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentModelIndex inSection:0]];
+#if HasYYKitOrWebImage
+    if (model.type == HXPhotoModelMediaTypePhotoGif) {
+        if (cell.animatedImageView.image.images.count > 0) {
+            model.thumbPhoto = cell.animatedImageView.image.images.firstObject;
+            model.previewPhoto = cell.animatedImageView.image.images.firstObject;
+        }else {
+            model.thumbPhoto = cell.animatedImageView.image;
+            model.previewPhoto = cell.animatedImageView.image;
+        }
+    }else {
+        model.thumbPhoto = cell.animatedImageView.image;
+        model.previewPhoto = cell.animatedImageView.image;
+    }
+#else
+    if (model.type == HXPhotoModelMediaTypePhotoGif) {
+        if (cell.imageView.image.images.count > 0) {
+            model.thumbPhoto = cell.imageView.image.images.firstObject;
+            model.previewPhoto = cell.imageView.image.images.firstObject;
+        }else {
+            model.thumbPhoto = cell.imageView.image;
+            model.previewPhoto = cell.imageView.image;
+        }
+    }else {
+        model.thumbPhoto = cell.imageView.image;
+        model.previewPhoto = cell.imageView.image;
+    }
+#endif
+    [self.manager beforeSelectedListAddPhotoModel:model];
+    
+    if ([self.delegate respondsToSelector:@selector(photoPreviewControllerDidDone:)]) {
+        [self.delegate photoPreviewControllerDidDone:self];
+    }
+}
+
+- (void)calculateVideoSize:(HXPhotoModel *)model
+                completion:(void (^)(BOOL resize))completion {
+    if (model.subType == HXPhotoModelMediaSubTypePhoto) {
+        completion(NO);
+        return;
+    }
+    
+    [model requestAVAssetStartRequestICloud:nil
+                            progressHandler:nil
+                                    success:^(AVAsset *avAsset, AVAudioMix *audioMix, HXPhotoModel *model, NSDictionary *info) {
+        NSURL *video = [(AVURLAsset *)avAsset URL];
+        NSData *data = [NSData dataWithContentsOfURL:video];
+        CGFloat videoSize = data.length * 0.001 * 0.001; // Mb
+        NSSLog(@"videoSize from album: %.2fMB", videoSize);
+        if (videoSize > 3) { // 超过3Mb
+            [self.view hx_showImageHUDText:@"视频大小超过上限"];
+            completion(YES);
+        }
+        else {
+            completion(NO);
+        }
+    } failed:^(NSDictionary *info, HXPhotoModel *model) {
+        completion(NO);
+    }];
+}
+
 #pragma mark - < HXPhotoEditViewControllerDelegate >
 - (void)photoEditViewControllerDidClipClick:(HXPhotoEditViewController *)photoEditViewController beforeModel:(HXPhotoModel *)beforeModel afterModel:(HXPhotoModel *)afterModel {
     if (self.outside) {

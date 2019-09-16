@@ -283,7 +283,7 @@
 }
 - (void)didDoneBtnClick {
     if (!self.manager.configuration.saveSystemAblum) {
-        HXPhotoModel *model;
+        __block HXPhotoModel *model;
         if (!self.videoURL) {
             model = [HXPhotoModel photoModelWithImage:self.imageView.image];
         }else {
@@ -292,11 +292,19 @@
                 return;
             }
             [self.playVideoView stopPlay];
-            model = [HXPhotoModel photoModelWithVideoURL:self.videoURL videoTime:self.time];
+            [self.view hx_showLoadingHUDText:[NSBundle hx_localizedStringForKey:@"处理中"]];
+            [HXPhotoTools exportEditVideoForPath:self.videoURL
+                                      presetName:self.manager.configuration.editVideoExportPresetName
+                                         success:^(NSURL * _Nullable videoURL) {
+                                             model = [HXPhotoModel photoModelWithVideoURL:videoURL];
+                                             model.creationDate = [NSDate date];
+                                             model.location = self.location;
+                                             [self doneCompleteWithModel:model];
+                                         }
+                                          failed:^(NSError * _Nullable error) {
+                                              [self.view hx_showImageHUDText:[NSBundle hx_localizedStringForKey:@"处理失败，请重试"]];
+                                         }];
         }
-        model.creationDate = [NSDate date];
-        model.location = self.location;
-        [self doneCompleteWithModel:model];
     }else {
         HXWeakSelf
         [self.view hx_immediatelyShowLoadingHudWithText:nil];

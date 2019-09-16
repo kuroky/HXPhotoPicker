@@ -186,6 +186,11 @@ HXVideoEditBottomViewDelegate
             [weakSelf.view hx_handleLoading];
             weakSelf.avAsset = avAsset;
             weakSelf.requestComplete = YES;
+            
+            NSURL *video = [(AVURLAsset *)avAsset URL];
+            NSData *data = [NSData dataWithContentsOfURL:video];
+            NSSLog(@"videoSize before edit: %.2fMB", @(data.length * 0.001 * 0.001).floatValue);
+            
             if (!weakSelf.isInside) {
                 [weakSelf setupVideo];
             }else {

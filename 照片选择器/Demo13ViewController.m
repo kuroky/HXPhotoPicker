@@ -33,6 +33,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     HXPhotoView *photoView = [HXPhotoView photoManager:self.manager];
+    photoView.outerCamera = YES; // 显示相机拍摄
     photoView.frame = CGRectMake(kPhotoViewMargin, hxNavigationBarHeight + kPhotoViewMargin, self.view.hx_w - kPhotoViewMargin * 2, 0);
     
     
@@ -44,16 +45,22 @@ static const CGFloat kPhotoViewMargin = 12.0;
     if (!_manager) {
         _manager = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhotoAndVideo];
         _manager.configuration.albumShowMode = HXPhotoAlbumShowModePopup;
-        _manager.configuration.openCamera = YES;
+        _manager.configuration.openCamera = NO;
         _manager.configuration.photoMaxNum = 9;
-        _manager.configuration.videoMaxNum = 9;
+        _manager.configuration.videoMaxNum = 1;
         _manager.configuration.maxNum = 18;
+        _manager.configuration.minVideoClippingTime = 3; // 编辑视频最小裁剪秒数
+        _manager.configuration.videoMaximumDuration = 15;
+        _manager.configuration.videoMaximumSelectDuration = 15;
+        _manager.configuration.editVideoExportPresetName = AVAssetExportPresetMediumQuality;
+        _manager.configuration.sessionPreset = AVCaptureSessionPreset1280x720;
+        _manager.type = HXPhotoManagerSelectedTypePhotoAndVideo;
 //        _manager.configuration.requestImageAfterFinishingSelection = NO;
         
         _manager.configuration.photoCanEdit = YES;
         _manager.configuration.videoCanEdit = YES;
         _manager.configuration.replacePhotoEditViewController = YES;
-        _manager.configuration.replaceVideoEditViewController = YES;
+        //_manager.configuration.replaceVideoEditViewController = YES;
         
         HXWeakSelf
         _manager.configuration.shouldUseEditAsset = ^(UIViewController *viewController, BOOL isOutside, HXPhotoManager *manager, HXPhotoModel *beforeModel) {

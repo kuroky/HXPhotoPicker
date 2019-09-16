@@ -206,6 +206,51 @@
         }
     }
 }
+
++ (void)exportEditVideoForPath:(NSURL *)videoUrl
+                      presetName:(NSString *)presetName
+                         success:(void (^)(NSURL *))success
+                          failed:(void (^)(NSError *))failed {
+    AVURLAsset *avAsset = [[AVURLAsset alloc] initWithURL:videoUrl options:nil];
+    NSArray *presets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    if ([presets containsObject:presetName]) {
+        NSString *fileName = [[NSString hx_fileName] stringByAppendingString:@".mp4"];
+        NSString *fullPathToFile = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+        NSURL *videoURL = [NSURL fileURLWithPath:fullPathToFile];
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:presetName];
+        exportSession.outputURL = videoURL;
+        NSArray *supportedTypeArray = exportSession.supportedFileTypes;
+        if ([supportedTypeArray containsObject:AVFileTypeMPEG4]) {
+            exportSession.outputFileType = AVFileTypeMPEG4;
+        } else if (supportedTypeArray.count == 0) {
+            if (failed) {
+                failed([NSError errorWithDomain:@"不支持导入该类型视频" code:-222 userInfo:nil]);
+            }
+            return;
+        }else {
+            exportSession.outputFileType = [supportedTypeArray objectAtIndex:0];
+        }
+        
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (exportSession.status == AVAssetExportSessionStatusCompleted) {
+                    if (success) {
+                        success(videoURL);
+                    }
+                }else {
+                    if (failed) {
+                        failed(exportSession.error);
+                    }
+                }
+            });
+        }];
+    }else {
+        if (failed) {
+            failed([NSError errorWithDomain:[NSString stringWithFormat:@"该设备不支持:%@",presetName] code:-111 userInfo:nil]);
+        }
+    }
+}
+
 + (NSString *)getBytesFromDataLength:(NSInteger)dataLength {
     NSString *bytes;
     if (dataLength >= 0.1 * (1024 * 1024)) {

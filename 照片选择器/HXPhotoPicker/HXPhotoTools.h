@@ -85,6 +85,19 @@
                            failed:(void (^ _Nullable)(NSError * _Nullable error))failed;
 
 /**
+ 导出拍摄的视频
+ 
+ @param videoUrl 视频路径
+ @param presetName 导出的视频质量
+ @param success 成功
+ @param failed 失败
+ */
++ (void)exportEditVideoForPath:(NSURL * _Nullable)videoUrl
+                    presetName:(NSString * _Nullable)presetName
+                       success:(void (^ _Nullable)(NSURL * _Nullable videoURL))success
+                        failed:(void (^ _Nullable)(NSError * _Nullable error))failed;
+
+/**
  获取视频的时长
  */
 + (NSString * _Nullable)transformVideoTimeToString:(NSTimeInterval)duration;
