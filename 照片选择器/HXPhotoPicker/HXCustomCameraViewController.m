@@ -170,8 +170,8 @@
                 HXWeakSelf
                 hx_showAlert(self, [NSBundle hx_localizedStringForKey:@"无法使用麦克风"], [NSBundle hx_localizedStringForKey:@"请在设置-隐私-相机中允许访问麦克风"], [NSBundle hx_localizedStringForKey:@"取消"], [NSBundle hx_localizedStringForKey:@"设置"], ^{
                     [weakSelf.view hx_showImageHUDText:[NSBundle hx_localizedStringForKey:@"麦克风添加失败,录制视频会没有声音哦!"]];
-                }, ^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                }, ^{                    
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
                 }); 
             }
         });

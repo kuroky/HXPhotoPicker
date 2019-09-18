@@ -196,7 +196,40 @@
                     }
                 }
             }];
-        }else {
+        }
+        else if (model.networkVideoURL) {
+            if (model.thumbPhoto) {
+                self.imageView.image = model.thumbPhoto;
+            }
+            else {
+                HXWeakSelf
+                AVURLAsset *avAsset = [AVURLAsset assetWithURL:model.networkVideoURL];
+                if (avAsset) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        NSTimeInterval second = avAsset.duration.value / avAsset.duration.timescale;
+                        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                        generator.appliesPreferredTrackTransform = YES;
+                        generator.maximumSize = CGSizeMake(200, 200);
+                        NSError *error = nil;
+                        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                        UIImage *resultImg = [UIImage imageWithCGImage:cgImage];
+                        if (cgImage)
+                            CGImageRelease(cgImage);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (weakSelf.model == model) {
+                                model.thumbPhoto = resultImg;
+                                weakSelf.imageView.image = resultImg;
+                                NSString *time = [HXPhotoTools transformVideoTimeToString:second];
+                                model.videoDuration = second;
+                                model.videoTime = time;
+                                weakSelf.stateLb.text = model.videoTime;
+                            }
+                        });
+                    });
+                }
+            }            
+        }
+        else {
             if (model.previewPhoto) {
                 self.imageView.image = model.previewPhoto;
             }else if (model.thumbPhoto) {

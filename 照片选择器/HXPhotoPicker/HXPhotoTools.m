@@ -157,7 +157,8 @@
 }
 + (void)showNoAuthorizedAlertWithViewController:(UIViewController *)viewController {
     hx_showAlert(viewController, [NSBundle hx_localizedStringForKey:@"无法访问相册"], [NSBundle hx_localizedStringForKey:@"请在设置-隐私-相册中允许访问相册"], [NSBundle hx_localizedStringForKey:@"取消"], [NSBundle hx_localizedStringForKey:@"设置"], nil, ^{
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+        
     });
 }
 

@@ -54,15 +54,8 @@
     }
     // Do any additional setup after loading the view.
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, hxNavigationBarHeight, self.view.hx_w, self.view.hx_h - hxNavigationBarHeight) style:UITableViewStyleGrouped];
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-#else
-        if ((NO)) {
-#endif
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
+    self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+           
     self.tableView.alwaysBounceVertical = YES;
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;

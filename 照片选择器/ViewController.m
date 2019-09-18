@@ -22,6 +22,7 @@
 #import "Demo11ViewController.h"
 #import "Demo12ViewController.h"
 #import "Demo13ViewController.h"
+#import "Demo14ViewController.h"
 
 static NSString *const kCellIdentifier = @"cell_identifier";
 
@@ -84,7 +85,10 @@ static NSString *const kCellIdentifier = @"cell_identifier";
                                 viewControllClass: [Demo12ViewController class]],
                   [[ListItem alloc] initWithTitle:@"Demo13"
                                          subTitle:@"嵌套其他第三方图片/视频编辑库"
-                                viewControllClass: [Demo13ViewController class]]
+                                viewControllClass: [Demo13ViewController class]],
+                  [[ListItem alloc] initWithTitle:@"Demo14"
+                           subTitle:@"加载网络视频"
+                  viewControllClass: [Demo14ViewController class]]
                   
                   ];
     }

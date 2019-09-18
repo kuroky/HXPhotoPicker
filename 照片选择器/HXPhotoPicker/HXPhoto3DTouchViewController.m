@@ -269,7 +269,7 @@
     }]; 
 }
 - (void)pausePlayerAndShowNaviBar {
-    [self.player.currentItem seekToTime:CMTimeMake(0, 1)];
+    [self.player.currentItem seekToTime:CMTimeMake(0, 1) completionHandler:nil];
     [self.player play];
 }
 - (void)playVideo {

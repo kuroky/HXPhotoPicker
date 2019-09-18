@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSInteger, HXCustomAssetModelType) {
     HXCustomAssetModelTypeLocalImage = 1,   //!< 本地图片
     HXCustomAssetModelTypeLocalVideo = 2,   //!< 本地视频
-    HXCustomAssetModelTypeNetWorkImage = 3  //!< 网络图片
+    HXCustomAssetModelTypeNetWorkImage = 3,  //!< 网络图片
+    HXCustomAssetModelTypeNetWorkVideo = 4   //!< 网络视频
 };
 
 @interface HXCustomAssetModel : NSObject
@@ -40,6 +41,9 @@ typedef NS_ENUM(NSInteger, HXCustomAssetModelType) {
  本地视频地址
  */
 @property (strong, nonatomic) NSURL *localVideoURL;
+
+/// 网络视频地址
+@property (nonatomic, strong) NSURL *networkVideoURL;
 
 /**
  是否选中
@@ -91,4 +95,10 @@ typedef NS_ENUM(NSInteger, HXCustomAssetModelType) {
  @return HXCustomAssetModel
  */
 + (instancetype)assetWithLocalVideoURL:(NSURL *)videoURL selected:(BOOL)selected;
+
+/// 加载网络视频
+/// @param videoURL 视频地址
+/// @param selected 是否选中
++ (instancetype)assetWithNetworkVideoURL:(NSURL *)videoURL selected:(BOOL)selected;
+
 @end

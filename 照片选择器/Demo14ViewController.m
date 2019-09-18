@@ -1,18 +1,17 @@
 //
-//  Demo3ViewController.m
+//  Demo14ViewController.m
 //  照片选择器
 //
-//  Created by 洪欣 on 17/2/17.
-//  Copyright © 2017年 洪欣. All rights reserved.
+//  Created by kuroky on 2019/9/17.
+//  Copyright © 2019 洪欣. All rights reserved.
 //
 
-#import "Demo3ViewController.h"
+#import "Demo14ViewController.h"
 #import "HXPhotoPicker.h"
-//#import "SDWebImageManager.h"
 
 static const CGFloat kPhotoViewMargin = 12.0;
 
-@interface Demo3ViewController ()<HXPhotoViewDelegate>
+@interface Demo14ViewController () <HXPhotoViewDelegate>
 
 @property (strong, nonatomic) HXPhotoManager *manager;
 @property (weak, nonatomic) HXPhotoView *photoView;
@@ -21,16 +20,18 @@ static const CGFloat kPhotoViewMargin = 12.0;
 
 @end
 
-@implementation Demo3ViewController
+@implementation Demo14ViewController
+
 - (HXPhotoManager *)manager
 {
     if (!_manager) {
         _manager = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
-        //        _manager.openCamera = NO; 
+        //        _manager.openCamera = NO;
         _manager.configuration.saveSystemAblum = YES;
         _manager.configuration.photoMaxNum = 9; //
         _manager.configuration.videoMaxNum = 5;  //
         _manager.configuration.maxNum = 14;
+        _manager.type = HXPhotoManagerSelectedTypePhotoAndVideo;
         
 //        _manager.networkPhotoUrls = [NSMutableArray arrayWithObjects:@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/003d86db-b140-4162-aafa-d38056742181.jpg",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0034821a-6815-4d64-b0f2-09103d62630d.jpg",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0be5118d-f550-403e-8e5c-6d0badb53648.jpg",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/1466408576222.jpg", nil];
     }
@@ -59,14 +60,14 @@ static const CGFloat kPhotoViewMargin = 12.0;
     photoView.frame = CGRectMake(kPhotoViewMargin, kPhotoViewMargin, width - kPhotoViewMargin * 2, 0);
     photoView.lineCount = 5;
     photoView.delegate = self;
-//    photoView.showAddCell = NO; 
+//    photoView.showAddCell = NO;
     photoView.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:photoView];
     self.photoView = photoView;
-    NSMutableArray *array = [NSMutableArray arrayWithObjects:@"http://oss-cn-hangzhou.aliyuncs.com/tsnrhapp/shop/photos/857980fd0acd3caf9e258e42788e38f5_0.gif",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0034821a-6815-4d64-b0f2-09103d62630d.jpg",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0be5118d-f550-403e-8e5c-6d0badb53648.jpg",@"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/1466408576222.jpg", nil];
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:@"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.mp4", nil];
     NSMutableArray *assets = @[].mutableCopy;
     for (NSString *url in array) {
-        HXCustomAssetModel *asset = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:url] selected:YES];
+        HXCustomAssetModel *asset = [HXCustomAssetModel assetWithNetworkVideoURL:[NSURL URLWithString:url] selected:YES];
         [assets addObject:asset];
     }
     [self.manager addCustomAssetModel:assets];
@@ -76,11 +77,6 @@ static const CGFloat kPhotoViewMargin = 12.0;
 //    self.manager.networkPhotoUrls = ;
     
 //    photoView.manager = self.manager;
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"添加网络" style:UIBarButtonItemStylePlain target:self action:@selector(addNetworkPhoto)];
-    
-    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"清空缓存" style:UIBarButtonItemStylePlain target:self action:@selector(lookClick)];
-    
-    self.navigationItem.rightBarButtonItems = @[item1,item2];
 }
 
 - (void)lookClick {
@@ -97,25 +93,6 @@ static const CGFloat kPhotoViewMargin = 12.0;
 //#if SDWebImageEmbed
 //#endif
     return;
-}
-- (void)addNetworkPhoto {
-    if (self.manager.afterSelectPhotoCountIsMaximum) {
-        [self.view hx_showImageHUDText:@"图片已达到最大数"];
-        return;
-    }
-    int x = arc4random() % 4;
-    NSString *url;
-    if (x == 0) {
-        url = @"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0034821a-6815-4d64-b0f2-09103d62630d.jpg";
-    }else if (x == 1) {
-        url = @"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/0be5118d-f550-403e-8e5c-6d0badb53648.jpg";
-    }else {
-        url = @"http://tsnrhapp.oss-cn-hangzhou.aliyuncs.com/1466408576222.jpg";
-    }
-    HXCustomAssetModel *asset = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:url] selected:YES];
-    [self.manager addCustomAssetModel:@[asset]];
-//    [self.manager addNetworkingImageToAlbum:@[url] selected:YES];
-    [self.photoView refreshView];
 }
 
 - (void)photoView:(HXPhotoView *)photoView changeComplete:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal {

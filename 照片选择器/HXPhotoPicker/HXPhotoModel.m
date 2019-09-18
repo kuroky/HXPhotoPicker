@@ -113,6 +113,10 @@
     return [[self alloc] initWithVideoURL:videoURL];
 }
 
++ (instancetype _Nullable)photoModelWithNetworkVideoURL:(NSURL * _Nullable)videoURL {
+    return [[self alloc] initWithNetworkVideoURL:videoURL];
+}
+
 + (instancetype)photoModelWithImageURL:(NSURL *)imageURL thumbURL:(NSURL *)thumbURL {
     return [[self alloc] initWithImageURL:imageURL thumbURL:thumbURL];
 }
@@ -176,6 +180,7 @@
     second = urlAsset.duration.value / urlAsset.duration.timescale;
     return [self initWithVideoURL:videoURL videoTime:second];
 }
+
 - (instancetype)initWithVideoURL:(NSURL *)videoURL videoTime:(NSTimeInterval)videoTime {
     if (self = [super init]) {
         self.type = HXPhotoModelMediaTypeCameraVideo;
@@ -192,6 +197,24 @@
         self.videoTime = time;
         self.thumbPhoto = image;
         self.previewPhoto = image;
+        self.imageSize = self.thumbPhoto.size;
+    }
+    return self;
+}
+
+- (instancetype)initWithNetworkVideoURL:(NSURL *)videoURL {
+    if (self = [super init]) {
+        self.type = HXPhotoModelMediaTypeVideo;
+        self.subType = HXPhotoModelMediaSubTypeVideo;
+        self.cameraVideoType = HXPhotoModelMediaTypeCameraVideoTypeNetWork;
+        self.networkVideoURL = videoURL;
+        //UIImage  *image = [UIImage hx_thumbnailImageForVideo:videoURL atTime:0.1f];
+        NSString *time = [HXPhotoTools transformVideoTimeToString:0];
+        self.videoDuration = 0;
+        self.videoURL = videoURL;
+        self.videoTime = time;
+        //self.thumbPhoto = image;
+        //self.previewPhoto = image;
         self.imageSize = self.thumbPhoto.size;
     }
     return self;

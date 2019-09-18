@@ -1314,7 +1314,9 @@ HXVideoEditViewControllerDelegate
     return _authorizationLb;
 }
 - (void)goSetup {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
+                                       options:@{}
+                             completionHandler:nil];
 }
 - (UIView *)albumBgView {
     if (!_albumBgView) {

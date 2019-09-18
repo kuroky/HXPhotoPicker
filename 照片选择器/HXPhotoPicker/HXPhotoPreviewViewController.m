@@ -1401,8 +1401,44 @@ HXVideoEditViewControllerDelegate
     self.imageView.hidden = NO;
     #endif
     HXWeakSelf
-    if (model.type == HXPhotoModelMediaTypeCameraPhoto || model.type == HXPhotoModelMediaTypeCameraVideo) {
-        if (model.networkPhotoUrl) {
+    if (model.type == HXPhotoModelMediaTypeCameraPhoto || model.type == HXPhotoModelMediaTypeCameraVideo || model.type == HXPhotoModelMediaTypeVideo) {
+        if (model.networkVideoURL) {
+            if (model.previewPhoto) {
+                #if HasYYKitOrWebImage
+                self.animatedImageView.image = model.previewPhoto;
+                #else
+                self.imageView.image = model.previewPhoto;
+                #endif
+                [self refreshImageSize];
+            }
+            else {
+                HXWeakSelf
+                AVURLAsset *avAsset = [AVURLAsset assetWithURL:model.networkVideoURL];
+                if (avAsset) {                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                        generator.appliesPreferredTrackTransform = YES;
+                        generator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+                        NSError *error = nil;
+                        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                        UIImage *resultImg = [UIImage imageWithCGImage:cgImage];
+                        if (cgImage)
+                            CGImageRelease(cgImage);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (weakSelf.model == model) {
+                                model.previewPhoto = resultImg;
+                                #if HasYYKitOrWebImage
+                                weakSelf.animatedImageView.image = resultImg;
+                                #else
+                                weakSelf.imageView.image = resultImg;
+                                #endif
+                                [weakSelf refreshImageSize];
+                            }
+                        });
+                    });
+                }
+            }
+        }
+        else if (model.networkPhotoUrl) {
             self.progressView.hidden = model.downloadComplete;
             CGFloat progress = (CGFloat)model.receivedSize / model.expectedSize;
             self.progressView.progress = progress;
@@ -1680,30 +1716,41 @@ HXVideoEditViewControllerDelegate
     }
     if (self.player != nil) return;
     if (self.model.subType == HXPhotoModelMediaSubTypeVideo) {
-        [self.model requestAVAssetStartRequestICloud:^(PHImageRequestID iCloudRequestId, HXPhotoModel *model) {
-            if (weakSelf.model != model) return;
-            [weakSelf.loadingView startAnimating];
-            weakSelf.videoPlayBtn.hidden = YES;
-            weakSelf.requestID = iCloudRequestId;
-        } progressHandler:^(double progress, HXPhotoModel *model) {
-            if (weakSelf.model != model) return;
-            weakSelf.progressView.progress = progress;
-        } success:^(AVAsset *avAsset, AVAudioMix *audioMix, HXPhotoModel *model, NSDictionary *info) {
-            if (weakSelf.model != model) return;
-            weakSelf.avAsset = avAsset;
-            [weakSelf downloadICloudAssetComplete];
-            weakSelf.progressView.hidden = YES;
-            [weakSelf.loadingView stopAnimating];
-            weakSelf.videoPlayBtn.hidden = NO;
-            weakSelf.player = [AVPlayer playerWithPlayerItem:[AVPlayerItem playerItemWithAsset:avAsset]];
-            weakSelf.playerLayer.player = weakSelf.player;
-            [[NSNotificationCenter defaultCenter] addObserver:weakSelf selector:@selector(pausePlayerAndShowNaviBar) name:AVPlayerItemDidPlayToEndTimeNotification object:weakSelf.player.currentItem];
-        } failed:^(NSDictionary *info, HXPhotoModel *model) {
-            if (weakSelf.model != model) return;
-            [weakSelf.loadingView stopAnimating];
-            weakSelf.videoPlayBtn.hidden = NO;
-            weakSelf.progressView.hidden = YES;
-        }];
+        if (self.model.networkVideoURL) {
+            //[self.loadingView startAnimating];
+            AVAsset *asset = [AVURLAsset assetWithURL:self.model.networkVideoURL];
+            self.avAsset = asset;
+            AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+            _player = [AVPlayer playerWithPlayerItem:playerItem];
+            _playerLayer.player = _player;
+            [[NSNotificationCenter defaultCenter] addObserver:weakSelf selector:@selector(pausePlayerAndShowNaviBar) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
+        }
+        else {
+            [self.model requestAVAssetStartRequestICloud:^(PHImageRequestID iCloudRequestId, HXPhotoModel *model) {
+                if (weakSelf.model != model) return;
+                [weakSelf.loadingView startAnimating];
+                weakSelf.videoPlayBtn.hidden = YES;
+                weakSelf.requestID = iCloudRequestId;
+            } progressHandler:^(double progress, HXPhotoModel *model) {
+                if (weakSelf.model != model) return;
+                weakSelf.progressView.progress = progress;
+            } success:^(AVAsset *avAsset, AVAudioMix *audioMix, HXPhotoModel *model, NSDictionary *info) {
+                if (weakSelf.model != model) return;
+                weakSelf.avAsset = avAsset;
+                [weakSelf downloadICloudAssetComplete];
+                weakSelf.progressView.hidden = YES;
+                [weakSelf.loadingView stopAnimating];
+                weakSelf.videoPlayBtn.hidden = NO;
+                weakSelf.player = [AVPlayer playerWithPlayerItem:[AVPlayerItem playerItemWithAsset:avAsset]];
+                weakSelf.playerLayer.player = weakSelf.player;
+                [[NSNotificationCenter defaultCenter] addObserver:weakSelf selector:@selector(pausePlayerAndShowNaviBar) name:AVPlayerItemDidPlayToEndTimeNotification object:weakSelf.player.currentItem];
+            } failed:^(NSDictionary *info, HXPhotoModel *model) {
+                if (weakSelf.model != model) return;
+                [weakSelf.loadingView stopAnimating];
+                weakSelf.videoPlayBtn.hidden = NO;
+                weakSelf.progressView.hidden = YES;
+            }];
+        }
     }
 }
 - (void)downloadICloudAssetComplete {

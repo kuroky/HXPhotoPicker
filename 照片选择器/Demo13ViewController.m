@@ -33,7 +33,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     HXPhotoView *photoView = [HXPhotoView photoManager:self.manager];
-    photoView.outerCamera = YES; // 显示相机拍摄
+    //photoView.outerCamera = YES; // 显示相机拍摄
     photoView.frame = CGRectMake(kPhotoViewMargin, hxNavigationBarHeight + kPhotoViewMargin, self.view.hx_w - kPhotoViewMargin * 2, 0);
     
     

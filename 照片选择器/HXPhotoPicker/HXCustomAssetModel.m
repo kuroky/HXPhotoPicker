@@ -74,4 +74,19 @@
     }
     return self;
 }
+
++ (instancetype)assetWithNetworkVideoURL:(NSURL *)videoURL selected:(BOOL)selected {
+    return [[self alloc] initAssetWithNetworkVideoURL:videoURL selected:selected];
+}
+
+- (instancetype)initAssetWithNetworkVideoURL:(NSURL *)videoURL selected:(BOOL)selected {
+    self = [super init];
+    if (self) {
+        self.type = HXCustomAssetModelTypeNetWorkVideo;
+        self.networkVideoURL = videoURL;
+        self.selected = selected;
+    }
+    return self;
+}
+
 @end

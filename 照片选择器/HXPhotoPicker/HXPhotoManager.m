@@ -247,6 +247,26 @@
                 [self.endCameraList addObject:photoModel];
             }
         }
+        else if (model.type == HXCustomAssetModelTypeNetWorkVideo) {
+            if (self.type == HXPhotoManagerSelectedTypePhoto) {
+                continue;
+            }
+            HXPhotoModel *photoModel = [HXPhotoModel photoModelWithNetworkVideoURL:model.networkVideoURL];
+            photoModel.selected = canAddPhoto ? model.selected : NO;
+            if (model.selected && canAddPhoto) {
+                [self.endCameraPhotos addObject:photoModel];
+                [self.endSelectedCameraPhotos addObject:photoModel];
+                [self.endCameraList addObject:photoModel];
+                [self.endSelectedCameraList addObject:photoModel];
+                [self.endSelectedPhotos addObject:photoModel];
+                [self.endSelectedList addObject:photoModel];
+                firstModel = photoModel;
+                photoCount++;
+            }else {
+                [self.endCameraPhotos addObject:photoModel];
+                [self.endCameraList addObject:photoModel];
+            }
+        }
     }
     
     NSInteger i = 0;

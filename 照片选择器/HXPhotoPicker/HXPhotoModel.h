@@ -104,6 +104,9 @@ typedef NS_ENUM(NSUInteger, HXPhotoModelVideoState) {
 @property (assign, nonatomic) CGSize imageSize;
 /**  本地视频URL */
 @property (strong, nonatomic) NSURL * _Nullable videoURL;
+
+/// 网络视频地址
+@property (strong, nonatomic) NSURL * _Nullable networkVideoURL;
 /**  网络图片的地址 */
 @property (copy, nonatomic) NSURL * _Nullable networkPhotoUrl;
 /**  网络图片缩略图地址  */
@@ -199,6 +202,11 @@ typedef NS_ENUM(NSUInteger, HXPhotoModelVideoState) {
 + (instancetype _Nullable)photoModelWithVideoURL:(NSURL * _Nullable)videoURL videoTime:(NSTimeInterval)videoTime;
 /**  通过本地视频地址URL对象初始化 */
 + (instancetype _Nullable)photoModelWithVideoURL:(NSURL * _Nullable)videoURL;
+
+/// 通过网络视频地址URL对象初始化
+/// @param videoURL 地址
++ (instancetype _Nullable)photoModelWithNetworkVideoURL:(NSURL * _Nullable)videoURL;
+
 /**  通过PHAsset对象初始化 */
 + (instancetype _Nullable)photoModelWithPHAsset:(PHAsset * _Nullable)asset;
 /**  通过视频PHAsset对象初始化视频封面 */

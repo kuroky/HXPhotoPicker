@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B433C732330834E004292B7 /* Demo14ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B433C722330834E004292B7 /* Demo14ViewController.m */; };
 		7B0EFFDA220598D100D614E8 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0EFFD8220598D100D614E8 /* SettingViewController.m */; };
 		7B0EFFDB220598D100D614E8 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B0EFFD9220598D100D614E8 /* SettingViewController.xib */; };
 		7B1AA3E421EEE3BD00D0AA93 /* HXCustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1AA38421EEE3BC00D0AA93 /* HXCustomCameraViewController.m */; };
@@ -213,6 +214,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B433C712330834E004292B7 /* Demo14ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demo14ViewController.h; sourceTree = "<group>"; };
+		5B433C722330834E004292B7 /* Demo14ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Demo14ViewController.m; sourceTree = "<group>"; };
 		7B0EFFD7220598D100D614E8 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7B0EFFD8220598D100D614E8 /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7B0EFFD9220598D100D614E8 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
@@ -1195,6 +1198,8 @@
 				7B6BC6B621073F1A00136D61 /* Demo12ViewController.m */,
 				7B200D4D216D074F004A5B0B /* Demo13ViewController.h */,
 				7B200D4E216D074F004A5B0B /* Demo13ViewController.m */,
+				5B433C712330834E004292B7 /* Demo14ViewController.h */,
+				5B433C722330834E004292B7 /* Demo14ViewController.m */,
 				7B0EFFD7220598D100D614E8 /* SettingViewController.h */,
 				7B0EFFD8220598D100D614E8 /* SettingViewController.m */,
 				7B0EFFD9220598D100D614E8 /* SettingViewController.xib */,
@@ -1701,6 +1706,7 @@
 				7B200D38216D06B9004A5B0B /* LFMaskLayer.m in Sources */,
 				7B1AA3EE21EEE3BD00D0AA93 /* UIViewController+HXExtension.m in Sources */,
 				7B1AA3E421EEE3BD00D0AA93 /* HXCustomCameraViewController.m in Sources */,
+				5B433C732330834E004292B7 /* Demo14ViewController.m in Sources */,
 				7BA9E547229CE5E400614CC3 /* SDAsyncBlockOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
