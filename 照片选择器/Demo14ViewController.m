@@ -45,10 +45,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
-//    self.navigationController.navigationBar.translucent = NO;
-    //self.automaticallyAdjustsScrollViewInsets = YES;
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.alwaysBounceVertical = YES;
@@ -60,7 +57,8 @@ static const CGFloat kPhotoViewMargin = 12.0;
     photoView.frame = CGRectMake(kPhotoViewMargin, kPhotoViewMargin, width - kPhotoViewMargin * 2, 0);
     photoView.lineCount = 5;
     photoView.delegate = self;
-//    photoView.showAddCell = NO;
+    photoView.showAddCell = NO;
+    photoView.hideDeleteButton = YES;
     photoView.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:photoView];
     self.photoView = photoView;

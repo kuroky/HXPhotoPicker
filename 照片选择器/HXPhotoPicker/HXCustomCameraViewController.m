@@ -286,6 +286,7 @@
         __block HXPhotoModel *model;
         if (!self.videoURL) {
             model = [HXPhotoModel photoModelWithImage:self.imageView.image];
+            [self doneCompleteWithModel:model];
         }else {
             if (self.time < 3) {
                 [self.view hx_showImageHUDText:[NSBundle hx_localizedStringForKey:@"录制时间少于3秒"]];

@@ -412,6 +412,7 @@
 
 - (void)directGoPhotoViewController {
     HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithManager:self.manager delegate:self];
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
     [[self hx_viewController] presentViewController:nav animated:YES completion:nil]; 
 }
 #pragma mark - < HXCustomNavigationControllerDelegate >
