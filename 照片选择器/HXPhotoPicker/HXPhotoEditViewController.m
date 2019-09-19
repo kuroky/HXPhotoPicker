@@ -894,7 +894,7 @@
     }]];
     
     [alertController addAction:[UIAlertAction actionWithTitle:[NSBundle hx_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil]];
-    
+    alertController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.hx_viewController presentViewController:alertController animated:YES completion:nil];
 }
 - (void)setupRatioWithValue1:(CGFloat)value1 value2:(CGFloat)value2 {

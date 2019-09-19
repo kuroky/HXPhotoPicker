@@ -116,7 +116,7 @@
             [imagePickerController setVideoMaximumDuration:60.f];
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             imagePickerController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-            imagePickerController.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+            imagePickerController.modalPresentationStyle = UIModalPresentationOverCurrentContext;            
             [viewController presentViewController:imagePickerController animated:YES completion:nil];
         };
 //        _manager.shouldSelectModel = ^NSString *(HXPhotoModel *model) {

@@ -105,7 +105,7 @@ CG_INLINE UIAlertController * hx_showAlert(UIViewController *vc,
                                                          if (buttonTitle2Handler) buttonTitle2Handler();
                                                      }];
     [alertController addAction:okAction];
-    
+    alertController.modalPresentationStyle = UIModalPresentationFullScreen;
     [vc presentViewController:alertController animated:YES completion:nil];
     return alertController;
 }

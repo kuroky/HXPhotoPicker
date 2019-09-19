@@ -499,6 +499,7 @@ HXVideoEditViewControllerDelegate
             vc.delegate = self;
             vc.manager = self.manager;
             vc.model = model;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }else {
             HXPhotoPreviewViewController *previewVC = [[HXPhotoPreviewViewController alloc] init];
@@ -770,6 +771,7 @@ HXVideoEditViewControllerDelegate
                     HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:vc];
                     nav.isCamera = YES;
                     nav.supportRotation = weakSelf.manager.configuration.supportRotation;
+                    nav.modalPresentationStyle = UIModalPresentationFullScreen;
                     [weakSelf presentViewController:nav animated:YES completion:nil];
                 }else {
                     hx_showAlert(weakSelf, [NSBundle hx_localizedStringForKey:@"无法使用相机"], [NSBundle hx_localizedStringForKey:@"请在设置-隐私-相机中允许访问相机"], [NSBundle hx_localizedStringForKey:@"取消"], [NSBundle hx_localizedStringForKey:@"设置"] , nil, ^{
@@ -828,6 +830,7 @@ HXVideoEditViewControllerDelegate
                     vc.model = cell.model;
                     vc.delegate = self;
                     vc.manager = self.manager;
+                    vc.modalPresentationStyle = UIModalPresentationFullScreen;
                     [self presentViewController:vc animated:YES completion:nil];
                 }else {
                     NSInteger currentIndex = [self.previewArray indexOfObject:cell.model];
@@ -975,6 +978,7 @@ HXVideoEditViewControllerDelegate
                 vc.model = cell.model;
                 vc.delegate = self;
                 vc.manager = self.manager;
+                vc.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self presentViewController:vc animated:NO completion:nil];
             }else {
                 HXPhotoPreviewViewController *previewVC = [[HXPhotoPreviewViewController alloc] init];
@@ -1249,6 +1253,7 @@ HXVideoEditViewControllerDelegate
             vc.model = self.manager.selectedPhotoArray.firstObject;
             vc.delegate = self;
             vc.manager = self.manager;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil]; 
         }
     }else if (model.subType == HXPhotoModelMediaSubTypeVideo) {
@@ -1267,6 +1272,7 @@ HXVideoEditViewControllerDelegate
             vc.delegate = self;
             vc.manager = self.manager;
             vc.isInside = YES;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }
     }

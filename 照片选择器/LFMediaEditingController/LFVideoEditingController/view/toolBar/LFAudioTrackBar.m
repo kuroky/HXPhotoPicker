@@ -243,6 +243,7 @@
     picker.showsCloudItems = YES;     //显示为下载的歌曲
     picker.allowsPickingMultipleItems = YES;  //是否允许多选
     picker.delegate = self;
+    picker.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.delegate presentViewController:picker animated:YES completion:nil];
 }
 

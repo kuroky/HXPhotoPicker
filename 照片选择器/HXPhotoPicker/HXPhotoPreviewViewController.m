@@ -818,6 +818,7 @@ HXVideoEditViewControllerDelegate
             vc.delegate = self;
             vc.manager = self.manager;
             vc.outside = self.outside;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }
     }else {
@@ -839,6 +840,7 @@ HXVideoEditViewControllerDelegate
             vc.manager = self.manager;
             vc.isInside = YES;
             vc.outside = self.outside;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:vc animated:YES completion:nil];
         }
     }

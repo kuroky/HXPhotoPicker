@@ -229,7 +229,7 @@
     [_EditingView stickerDeactivated];
     
     /** 处理编辑图片 */
-    __block LFPhotoEdit *photoEdit = nil;
+    //__block LFPhotoEdit *photoEdit = nil;
     NSDictionary *data = [_EditingView photoEditData];
     __weak typeof(self) weakSelf = self;
     
@@ -470,6 +470,7 @@
         UIPopoverPresentationController *presentationController = [alertController popoverPresentationController];
         presentationController.sourceView = clipToolbar;
         presentationController.sourceRect = clipToolbar.clickViewRect;
+        alertController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:alertController animated:YES completion:nil];
     }
     else {

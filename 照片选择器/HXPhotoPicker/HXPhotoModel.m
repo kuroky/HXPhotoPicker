@@ -661,7 +661,7 @@
         option.version = PHImageRequestOptionsVersionOriginal;
     }
     self.iCloudDownloading = YES;
-    CGFloat scale = 2.0;//UIScreen.mainScreen.scale;
+    CGFloat scale = UIScreen.mainScreen.scale;
     CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
     CGSize tSize = CGSizeApplyAffineTransform([UIScreen mainScreen].bounds.size, transform);
     PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:self.asset

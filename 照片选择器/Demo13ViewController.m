@@ -85,6 +85,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
                         HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:lfPhotoEditVC];
                         nav.supportRotation = NO;
                         [nav setNavigationBarHidden:YES];
+                        nav.modalPresentationStyle = UIModalPresentationFullScreen;
                         [viewController presentViewController:nav animated:NO completion:nil];
                     }
                 }else {
@@ -112,6 +113,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
                             HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:lfPhotoEditVC];
                             nav.supportRotation = NO;
                             [nav setNavigationBarHidden:YES];
+                            nav.modalPresentationStyle = UIModalPresentationFullScreen;
                             [viewController presentViewController:nav animated:NO completion:nil];
                         }
                     } failed:^(NSDictionary *info, HXPhotoModel *model) {
@@ -137,6 +139,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
                         HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:lfVideoEditVC];
                         nav.supportRotation = NO;
                         [nav setNavigationBarHidden:YES];
+                        nav.modalPresentationStyle = UIModalPresentationFullScreen;
                         [viewController presentViewController:nav animated:NO completion:nil];
                     }
                 }else {
@@ -162,6 +165,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
                                 HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:lfVideoEditVC];
                                 nav.supportRotation = NO;
                                 [nav setNavigationBarHidden:YES];
+                                nav.modalPresentationStyle = UIModalPresentationFullScreen;
                                 [viewController presentViewController:nav animated:NO completion:nil];
                             }
                         }else {
@@ -184,6 +188,7 @@ static const CGFloat kPhotoViewMargin = 12.0;
                                     HXCustomNavigationController *nav = [[HXCustomNavigationController alloc] initWithRootViewController:lfVideoEditVC];
                                     nav.supportRotation = NO;
                                     [nav setNavigationBarHidden:YES];
+                                    nav.modalPresentationStyle = UIModalPresentationFullScreen;
                                     [viewController presentViewController:nav animated:NO completion:nil];
                                 }
                             } failed:^{
